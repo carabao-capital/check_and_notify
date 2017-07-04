@@ -2,6 +2,7 @@ module CheckAndNotify
   module Workers
     class CheckEveryTenMinutesWorker
       include Sidekiq::Worker
+      sidekiq_options retry: 1
 
       def perform
         callbacks_size = CheckAndNotify::Callbacks.

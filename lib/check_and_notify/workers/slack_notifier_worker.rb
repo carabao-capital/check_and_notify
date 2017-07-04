@@ -2,6 +2,7 @@ module CheckAndNotify
   module Workers
     class SlackNotifierWorker
       include Sidekiq::Worker
+      sidekiq_options retry: 1
 
       EVERY_HOUR = 3600
       EVERY_TEN_MINUTES = 600
