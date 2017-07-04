@@ -1,39 +1,74 @@
-# CheckAndNotify
+# Check And Notify
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/check_and_notify`. To experiment with that code, run `bin/console` for an interactive prompt.
+An easy to use regular checker and notifier via Slack without needing to setup cron jobs and rake tasks.
+This gem uses Sidekiq and Sidekiq Cron for asynchronous execution of jobs.
 
-TODO: Delete this and the text above, and describe your gem
+In the future, other medium of notifications will be implemented like Email and SMS.
 
-## Installation
+### Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'check_and_notify'
+```sh
+$ gem install check_and_notify
 ```
 
-And then execute:
+### Usage
 
-    $ bundle
+In your initializer, say for example, `check_and_notify.rb`, write a callback that will be called every ten minutes and then send a notification:
 
-Or install it yourself as:
+```ruby
+require 'check_and_notify'
 
-    $ gem install check_and_notify
+CheckAndNotify::Callbacks.check_after_ten_minutes do
+    # Do anything here
+    message = "Hello World"
 
-## Usage
+    {
+      slack_webhook_url: "https://hooks.slack.com/services/111/222/abcd",
+      message: message
+    }
+  end
+end
 
-TODO: Write usage instructions here
+CheckAndNotify.init_cron
+```
 
-## Development
+Remember that the return of the callback must be of the form: `{slack_webhook_url: "", message: ""}`.
+Also remember to call `CheckAndNotify.init_cron` to initialize Sidekiq crons.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+You can add multiple callbacks if you want:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+require 'check_and_notify'
 
-## Contributing
+CheckAndNotify::Callbacks.check_after_ten_minutes do
+    # Do anything here
+    message = "Hello James"
 
-1. Fork it ( https://github.com/[my-github-username]/check_and_notify/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+    {
+      slack_webhook_url: "https://hooks.slack.com/services/333/444/abcd",
+      message: message
+    }
+  end
+end
+
+CheckAndNotify::Callbacks.check_after_ten_minutes do
+    # Do anything here
+    message = "Hello World"
+
+    {
+      slack_webhook_url: "https://hooks.slack.com/services/111/222/abcd",
+      message: message
+    }
+  end
+end
+
+CheckAndNotify.init_cron
+```
+
+### Todos
+
+- Write checkers after every five minutes, fifteen minutes, thirty minutes, and so forth as long as there's a demand for it
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
