@@ -22,5 +22,13 @@ module CheckAndNotify
         class: 'CheckAndNotify::Workers::CheckEveryTenMinutesWorker'
       })
     end
+
+    def self.init_every_thirty_minutes_cron
+      Sidekiq::Cron::Job.create({
+        name: 'CheckEveryThirtyMinutesWorker',
+        cron: '*/30 * * * *',
+        class: 'CheckAndNotify::Workers::CheckEveryThirtyMinutesWorker'
+      })
+    end
   end
 end
