@@ -3,6 +3,7 @@ module CheckAndNotify
     def self.init
       init_every_hour_cron
       init_every_ten_minutes_cron
+      init_every_thirty_minutes_cron
     end
 
     private
