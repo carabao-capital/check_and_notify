@@ -19,12 +19,13 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency 'activesupport', '~> 4.2', '>= 4.2.0'
-  spec.add_dependency "sidekiq", "5.0.4"
+  spec.add_runtime_dependency "activesupport", ">= 4.2.0"
+  spec.add_dependency "sidekiq"
   spec.add_dependency "sidekiq-cron", "0.6.3"
 
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "pry-nav", "~> 0.2.4"
+  spec.add_development_dependency "httparty", "~> 0.15.6"
 end
