@@ -1,3 +1,7 @@
+# 0.1.4
+
+- initialize CheckAndNotify::Cron.init_every_one_minute_cron
+
 # 0.1.3
 
 - Update gem dependency versions
