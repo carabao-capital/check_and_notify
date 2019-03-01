@@ -25,7 +25,11 @@ module CheckAndNotify
               check_after_one_minute_callbacks[callback_index]
           end
 
-        result = callback.call
+        begin
+          result = callback.call
+        rescue LocalJumpError => e
+        end
+
         Notifiers::Slack.notify(result) if result
       end
     end
